@@ -6,7 +6,7 @@ export const HomeScreen = () => {
     <View>
       <Text>HomeScreen</Text>
 
-      <Button mode="contained" onPress={() => console.log('Pressed')}>
+      <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
         Press me
       </Button>
     </View>
