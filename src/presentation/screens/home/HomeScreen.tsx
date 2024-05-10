@@ -6,9 +6,9 @@ import { getPokemons } from '../../../actions/pokemons'
 export const HomeScreen = () => {
 
 
-  const {isLoading, data} = useQuery({ 
+  const {isLoading, data=[]} = useQuery({ 
     queryKey: ['pokemons'],
-    queryFn: getPokemons,
+    queryFn: () => getPokemons(0),
     staleTime: 1000 * 60 * 60 // 60 minutos
   })
 
