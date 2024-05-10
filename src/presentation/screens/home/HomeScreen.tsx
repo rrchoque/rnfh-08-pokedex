@@ -1,15 +1,32 @@
+import { useQuery } from '@tanstack/react-query'
 import { View } from 'react-native'
-import { Button, Text } from 'react-native-paper'
+import { ActivityIndicator, Button, Text } from 'react-native-paper'
+import { getPokemons } from '../../../actions/pokemons'
 
 export const HomeScreen = () => {
+
+
+  const {isLoading, data} = useQuery({ 
+    queryKey: ['pokemons'],
+    queryFn: getPokemons,
+    staleTime: 1000 * 60 * 60 // 60 minutos
+  })
 
   return (
     <View>
       <Text>HomeScreen</Text>
 
-      <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-        Press me
-      </Button>
+      {
+        isLoading ? (
+        <ActivityIndicator />
+        ) : (
+          <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
+            Press me
+          </Button>
+        )
+      }
+
+
     </View>
   )
 }
