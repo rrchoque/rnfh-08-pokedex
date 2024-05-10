@@ -5,18 +5,13 @@ import { StackNavigator } from './navigator/StackNavigator';
 import { PaperProvider } from 'react-native-paper';
 
 import IonIcon from 'react-native-vector-icons/Ionicons'
+import { ThemeContextProvider } from './context/ThemeContext';
 
 export const PokedexApp = () => {
   return (
-    <PaperProvider
-      settings={{
-        icon: (props) => <IonIcon {...props} />
-      }}
-    >
-      <NavigationContainer>
-        <StackNavigator />
-      </NavigationContainer>
-    </PaperProvider>
+    <ThemeContextProvider>
+      <StackNavigator />
+    </ThemeContextProvider>
 
   );
 };
