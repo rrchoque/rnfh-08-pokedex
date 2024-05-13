@@ -3,6 +3,7 @@ import {Pokemon} from '../../../domain/entities/pokemon';
 import {Card, Text} from 'react-native-paper';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../navigator/StackNavigator';
+import { FadeInImage } from '../ui/FadeInImage';
 
 interface Props {
   pokemon: Pokemon;
@@ -33,8 +34,8 @@ export const PokemonCard = ({pokemon}: Props) => {
         </View>
 
         {/* POkemon Image */}
-        <Image
-          source={{ uri: pokemon.avatar }}
+        <FadeInImage
+          uri = { pokemon.avatar }
           style={styles.pokemonImage}
         />
 
