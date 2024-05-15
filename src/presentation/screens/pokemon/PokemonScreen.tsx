@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import { RootStackParams } from '../../navigator/StackNavigator'
 import { useQuery } from '@tanstack/react-query';
 import { getPokemonById } from '../../../actions/pokemons';
+import { FullScreenLoader } from '../../components';
 
 interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'> {}
 
@@ -17,7 +18,7 @@ export const PokemonScreen = ({navigation, route}: Props) => {
   });
 
   if (!pokemon) {
-    return <Text>Cargando...</Text>;
+    return <FullScreenLoader />;
   }
 
   return (
