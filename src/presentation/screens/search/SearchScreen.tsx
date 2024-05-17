@@ -3,10 +3,10 @@ import { globalTheme } from '../../../config/theme/global-theme'
 import { ActivityIndicator, Text, TextInput } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
-import { PokemonCard } from '../../components';
+import { FullScreenLoader, PokemonCard } from '../../components';
 import { Pokemon } from '../../../domain/entities/pokemon';
 import { useQuery } from '@tanstack/react-query';
-import { getPokemonNamesWithId } from '../../../actions/pokemons';
+import { getPokemonNamesWithId, getPokemonsByIds } from '../../../actions/pokemons';
 import { useMemo, useState } from 'react';
 
 export const SearchScreen = () => {
@@ -38,7 +38,16 @@ export const SearchScreen = () => {
 
   }, [term]);
 
-  console.log(pokemonNameList)
+  const {isLoading: isLoadingPokemons, data: pokemons = []} = useQuery({
+    queryKey: ['pokemons', 'by', pokemonNameIdList],
+    queryFn: () =>
+      getPokemonsByIds(pokemonNameIdList.map(pokemon => pokemon.id)),
+    staleTime: 1000 * 60 * 5, // 5 minutos
+  });
+
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
 
   return (
     <View style={[globalTheme.globalMargin, {paddingTop: top + 10, flex: 1}]}>
@@ -51,17 +60,16 @@ export const SearchScreen = () => {
         value={term}
       />
 
-      <ActivityIndicator style={{paddingTop: 20}} />
-
-      <Text>{ JSON.stringify(pokemonNameIdList, null, 2) }</Text>
+      {isLoadingPokemons && <ActivityIndicator style={{paddingTop: 20}} />}
 
       <FlatList
-        data={[] as Pokemon[]}
+        data={pokemons}
         keyExtractor={(pokemon, index) => `${pokemon.id}-${index}`}
         numColumns={2}
         renderItem={({item: pokemon}) => <PokemonCard pokemon={pokemon} />}
         style={{paddingTop: top + 20}}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={ <View style={{ height: 150 }} />}
       />
 
     </View>
